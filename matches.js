@@ -2,10 +2,12 @@
 
 var data = JSON.parse(matches);
 
-console.log(data);
+console.log(data); //Printing data to help manipultating it
 /*
-TODO: 	-customValidation to dates + hakurajauksen estäminen väärillä päivämäärillä
-		-kommentointi
+TODO: 	
+
+-adding customValidation to dates 
+-show only one date in Pvm column if the date is same for multiple matches
 		
 */
 
@@ -15,6 +17,9 @@ window.onload = function() {
 	filter();
 }
 
+/**
+* A function for listing matches from data to the site
+*/
 function listMatches(data){
 	let table = document.getElementById("games");
 	console.log(table);
@@ -32,7 +37,7 @@ function listMatches(data){
 		let tdDate = document.createElement("TD");
 		tdDate.appendChild(dateText);
 		tablerow.appendChild(tdDate);
-		//TODO: lisää nollat jos  miuutit on nolla
+		
 		let time = document.createTextNode(d.getUTCHours() + ':' + addZero(d.getUTCMinutes()));
 		let tdTime = document.createElement("TD");
 		tdTime.appendChild(time);
@@ -51,6 +56,9 @@ function listMatches(data){
 
 }
 
+/**
+* A function for adding zero to time if time unit is less than ten
+*/
 function addZero(min){
 	if (min < 10){
 		min = "0" + min;
@@ -58,6 +66,10 @@ function addZero(min){
 	return min;
 }
 
+
+/**
+* Adding event listeners for date filtering form
+*/
 function filter() {
 	var startDate = document.getElementById("start");
 	startDate.addEventListener("change", validateDates);
@@ -69,6 +81,10 @@ function filter() {
 	filterButton.addEventListener("click", filterByDate);
 }
 
+
+/**
+* IN PROGRESS: Adding custom validations to datepickers
+*/
 function validateDates(e){
 	e.preventDefault(); 
 	
@@ -83,6 +99,10 @@ function validateDates(e){
 	}
 }
 
+
+/**
+* Filtering match list on the website according to users date filtering
+*/
 function filterByDate(e){
 	event.preventDefault(); 
 	var start = document.getElementById("start");
@@ -91,7 +111,7 @@ function filterByDate(e){
 	var isoEndDate = new Date(end.value).toISOString();
 	
 	var filteredMatches = [];
-	//TODO: selvitä 30.9-1.10
+	
 	for (let i = 0; i < data.length; i++){
 		if (isoStartDate <= data[i].MatchDate && data[i].MatchDate <= isoEndDate) {
 			filteredMatches.push(data[i]);
