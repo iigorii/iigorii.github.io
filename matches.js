@@ -6,7 +6,7 @@ console.log(data); //Printing data to help manipultating it
 /*
 TODO: 	
 
--show only one date in Pvm column if the date is same for multiple matches
+-fix changing the year - problem
 		
 */
 
