@@ -55,10 +55,15 @@ function listMatches(data){
 		tdTime.appendChild(time);
 		tablerow.appendChild(tdTime);
 		
+		let pageLink = document.createElement("A");
+		let address = pageLink.setAttribute("href", "javascript:makeDocument()");
 		let teams = document.createTextNode(data[i].AwayTeam.Name + " - " + data[i].HomeTeam.Name);
+		pageLink.appendChild(teams);
 		let tdTeams = document.createElement("TD");
-		tdTeams.appendChild(teams);
+		tdTeams.appendChild(pageLink);
 		tablerow.appendChild(tdTeams);
+		
+		
 		
 		let result = document.createTextNode(data[i].AwayGoals + " — " + data[i].HomeGoals);
 		let tdResult = document.createElement("TD");
@@ -66,6 +71,15 @@ function listMatches(data){
 		tablerow.appendChild(tdResult);
 	}
 
+}
+
+
+/**
+* Creates a  new html document for showing specic match information
+*/
+function makeDocument(){
+	var opened = window.open("");
+	opened.document.write("<html><head><title></title></head><body>Tänne tulee tietoja ottelusta</body></html>");
 }
 
 /**
