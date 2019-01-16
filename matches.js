@@ -6,7 +6,6 @@ console.log(data); //Printing data to help manipultating it
 /*
 TODO: 	
 
--adding customValidation to dates 
 -show only one date in Pvm column if the date is same for multiple matches
 		
 */
@@ -22,7 +21,6 @@ window.onload = function() {
 */
 function listMatches(data){
 	let table = document.getElementById("games");
-	console.log(table);
 	
 	let tbody = document.createElement("tbody");
 	table.appendChild(tbody);
@@ -35,8 +33,22 @@ function listMatches(data){
 		var month = d.getUTCMonth()+1;
 		let dateText = document.createTextNode(d.getDate() + '.' + month + '.' + d.getUTCFullYear());
 		let tdDate = document.createElement("TD");
-		tdDate.appendChild(dateText);
-		tablerow.appendChild(tdDate);
+		if (i >= 1) { //if there are same dates in a row, the date is presented only once
+			if ( data[i].MatchDate == data[i - 1].MatchDate) {
+				let dateText = document.createTextNode("");
+				let tdDate = document.createElement("TD");
+				tdDate.appendChild(dateText);
+				tablerow.appendChild(tdDate);
+			}
+			else {
+				tdDate.appendChild(dateText);
+				tablerow.appendChild(tdDate);
+			}
+		}
+		else {
+				tdDate.appendChild(dateText);
+				tablerow.appendChild(tdDate);
+		}
 		
 		let time = document.createTextNode(d.getUTCHours() + ':' + addZero(d.getUTCMinutes()));
 		let tdTime = document.createElement("TD");
@@ -86,6 +98,7 @@ function filter() {
 
 /**
 * Changes end date values according to users selection of start date
+* IN PROGRESS: changes year if user tries to select the first or the last day of the year to both datepickers
 */
 function setEndDateValues(e){
 	e.preventDefault(); 
@@ -97,12 +110,9 @@ function setEndDateValues(e){
 	
 	var newEndMin = new Date(startDate);
 	var newEndMinDate = newEndMin.getDate() + 1;
-	console.log(newEndMinDate);
 	newEndMin.setDate(newEndMinDate);
-	console.log(newEndMin);
 	
 	var formatedMin = formatDate(newEndMin)
-	console.log(formatedMin);
 	end.min = formatedMin;
 	
 	if (Date.parse(startDate) >= Date.parse(endDate)) end.value = formatedMin;
@@ -131,7 +141,7 @@ function setStartDateValues(e){
 	var formatedMax = formatDate(newStartMax)
 	start.max = formatedMax;
 
-	if (Date.parse(startDate) >= Date.parse(endDate)) end.value = formatedMax;
+	if (Date.parse(startDate) >= Date.parse(endDate)) start.value = formatedMax;
 }
 
 
@@ -176,9 +186,7 @@ function filterByDate(e){
 	
 	var table = document.getElementById("games");
 	var tbody = document.getElementById("tbody");
-	console.log(table.childNodes);
 	table.removeChild(table.lastChild);
-	console.log(filteredMatches);
 	listMatches(filteredMatches);
 	
 	if (filteredMatches.length <= 0) {
@@ -187,6 +195,7 @@ function filterByDate(e){
 		let tablerow = document.createElement("TR");
 		tbody.appendChild(tablerow);
 		
+		//appends extra tbody?
 		let error = document.createTextNode("Ei pelattuja otteluita tällä aikavälillä");
 		let tdError = document.createElement("TD");
 		tdError.appendChild(error);
