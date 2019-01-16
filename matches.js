@@ -71,11 +71,13 @@ function addZero(min){
 * Adding event listeners for date filtering form
 */
 function filter() {
+	
 	var startDate = document.getElementById("start");
-	startDate.addEventListener("change", validateDates);
+	startDate.addEventListener("change", setEndDateValues);
 	
 	var endDate = document.getElementById("end");
-	endDate.addEventListener("change", validateDates);
+	endDate.addEventListener("change", setStartDateValues);
+	
 	
 	var filterButton = document.getElementById("submit");
 	filterButton.addEventListener("click", filterByDate);
@@ -83,21 +85,72 @@ function filter() {
 
 
 /**
-* IN PROGRESS: Adding custom validations to datepickers
+* Changes end date values according to users selection of start date
 */
-function validateDates(e){
+function setEndDateValues(e){
 	e.preventDefault(); 
 	
 	var startDate = document.getElementById("start").value;
-	var endDate = document.getElementById("end").value;
+	var end = document.getElementById("end");
+	var endDate = end.value;
+	let datepicker = e.target;
 	
-	if (Date.parse(startDate) >= Date.parse(endDate)) {
-		console.log(e.target);
-		e.target.setCustomValidity("Tarkista syöttämäsi päivämäärät");
-	} else {
-		e.target.setCustomValidity("");
-	}
+	var newEndMin = new Date(startDate);
+	var newEndMinDate = newEndMin.getDate() + 1;
+	console.log(newEndMinDate);
+	newEndMin.setDate(newEndMinDate);
+	console.log(newEndMin);
+	
+	var formatedMin = formatDate(newEndMin)
+	console.log(formatedMin);
+	end.min = formatedMin;
+	
+	if (Date.parse(startDate) >= Date.parse(endDate)) end.value = formatedMin;
+	
+	
+	
 }
+
+
+/**
+* Changes start date values according to users selection of end date
+*/
+function setStartDateValues(e){
+	e.preventDefault(); 
+	var start = document.getElementById("start");
+	var startDate = start.value;
+	var end = document.getElementById("end");
+	var endDate = end.value;
+	
+	let datepicker = e.target;
+	
+	var newStartMax = new Date(endDate);
+	var newStartMaxDate = newStartMax.getDate() - 1;
+	newStartMax.setDate(newStartMaxDate);
+	
+	var formatedMax = formatDate(newStartMax)
+	start.max = formatedMax;
+
+	if (Date.parse(startDate) >= Date.parse(endDate)) end.value = formatedMax;
+}
+
+
+/**
+* Formates JavaScript date to yyyy-mm-dd format
+*/
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+
+
 
 
 /**
@@ -105,6 +158,9 @@ function validateDates(e){
 */
 function filterByDate(e){
 	event.preventDefault(); 
+	
+	
+	
 	var start = document.getElementById("start");
 	var end = document.getElementById("end");
 	var isoStartDate = new Date(start.value).toISOString();
@@ -130,6 +186,7 @@ function filterByDate(e){
 		table.appendChild(tbody);
 		let tablerow = document.createElement("TR");
 		tbody.appendChild(tablerow);
+		
 		let error = document.createTextNode("Ei pelattuja otteluita tällä aikavälillä");
 		let tdError = document.createElement("TD");
 		tdError.appendChild(error);
