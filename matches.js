@@ -181,7 +181,7 @@ function formatDate(date) {
 * Filtering match list on the website according to users date filtering
 */
 function filterByDate(e){
-	event.preventDefault(); 
+	e.preventDefault(); 
 	
 	
 	
