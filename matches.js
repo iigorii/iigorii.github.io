@@ -71,15 +71,18 @@ function listMatches(data){
 		tablerow.appendChild(tdResult);
 	}
 
-}
+}   
 
 
 /**
-* Creates a  new html document for showing specic match information
+* Creates a  new html document for showing specific match information
 */
 function makeDocument(){
 	var opened = window.open("");
-	opened.document.write("<html><head><title></title></head><body>Tänne tulee tietoja ottelusta</body></html>");
+    var html = `
+        <html><head><title>Sivu</title><script type="text/javascript" src="info.js"></script></head><body>Tänne tulee tietoja ottelusta</body></html>
+        `;
+	opened.document.write(html);
 }
 
 /**
@@ -124,15 +127,12 @@ function setEndDateValues(e){
 	
 	var newEndMin = new Date(startDate);
 	var newEndMinDate = newEndMin.getDate() + 1;
+
 	newEndMin.setDate(newEndMinDate);
 	
 	var formatedMin = formatDate(newEndMin)
 	end.min = formatedMin;
-	
 	if (Date.parse(startDate) >= Date.parse(endDate)) end.value = formatedMin;
-	
-	
-	
 }
 
 
@@ -170,7 +170,6 @@ function formatDate(date) {
 
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
-
     return [year, month, day].join('-');
 }
 
