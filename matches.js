@@ -7,6 +7,7 @@ console.log(data); //Printing data to help manipultating it
 TODO: 	
 
 -fix changing the year - problem
+-links change to "visited"?
 		
 */
 
