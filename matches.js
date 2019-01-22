@@ -56,7 +56,7 @@ function listMatches(data){
 		tablerow.appendChild(tdTime);
 		
 		let pageLink = document.createElement("A");
-		let address = pageLink.setAttribute("href", "javascript:makeDocument()");
+		let address = pageLink.setAttribute("href", "ottelu/index.html" /*"javascript:makeDocument()"*/);
 		let teams = document.createTextNode(data[i].AwayTeam.Name + " - " + data[i].HomeTeam.Name);
 		pageLink.appendChild(teams);
 		let tdTeams = document.createElement("TD");
@@ -80,9 +80,17 @@ function listMatches(data){
 function makeDocument(){
 	var opened = window.open("");
     var html = `
-        <html><head><title>Sivu</title><script type="text/javascript" src="info.js"></script></head><body>Tänne tulee tietoja ottelusta</body></html>
+        <html><head>
+            <title>Sivu</title>
+            <link rel="StyleSheet" href="StyleSheetInfo.css" type="text/css" />
+            <script type="text/javascript" src="matches.json"></script>
+            <script type="text/javascript" src="info.js"></script>
+            </head>
+            <body>Tänne tulee tietoja ottelusta</body>
+        </html>
         `;
 	opened.document.write(html);
+   
 }
 
 /**
