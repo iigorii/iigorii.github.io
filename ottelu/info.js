@@ -10,5 +10,8 @@ window.onload = function() {
 
 function showSomething() {
     let body = document.getElementById("body");
-
+    console.log(localStorage);
+    
+    console.log(localStorage.getItem("awayGoals"));
+    localStorage.clear();
 }

@@ -6,8 +6,7 @@ console.log(data); //Printing data to help manipultating it
 /*
 TODO: 	
 
--fix changing the year - problem
--links change to "visited"?
+-simplify listMatches- function
 		
 */
 
@@ -56,8 +55,9 @@ function listMatches(data){
 		tdTime.appendChild(time);
 		tablerow.appendChild(tdTime);
 		
+       
 		let pageLink = document.createElement("A");
-		let address = pageLink.setAttribute("href", "ottelu/index.html" /*"javascript:makeDocument()"*/);
+		pageLink.setAttribute("href", "ottelu/index.html" /*"javascript:makeDocument(matchInfo)"*/);
 		let teams = document.createTextNode(data[i].AwayTeam.Name + " - " + data[i].HomeTeam.Name);
 		pageLink.appendChild(teams);
 		let tdTeams = document.createElement("TD");
@@ -70,29 +70,21 @@ function listMatches(data){
 		let tdResult = document.createElement("TD");
 		tdResult.appendChild(result);
 		tablerow.appendChild(tdResult);
+        
+        pageLink.addEventListener("click", function(){
+            
+            localStorage.setItem("awayTeamName", data[i].AwayTeam.Name);
+            localStorage.setItem("homeTeamName", data[i].HomeTeam.Name);
+            localStorage.setItem("awayGoals", data[i].AwayGoals);
+            localStorage.setItem("homeGoals", data[i].HomeGoals);
+            
+                
+        });
 	}
 
 }   
 
 
-/**
-* Creates a  new html document for showing specific match information
-*/
-function makeDocument(){
-	var opened = window.open("");
-    var html = `
-        <html><head>
-            <title>Sivu</title>
-            <link rel="StyleSheet" href="StyleSheetInfo.css" type="text/css" />
-            <script type="text/javascript" src="matches.json"></script>
-            <script type="text/javascript" src="info.js"></script>
-            </head>
-            <body>Tänne tulee tietoja ottelusta</body>
-        </html>
-        `;
-	opened.document.write(html);
-   
-}
 
 /**
 * A function for adding zero to time if time unit is less than ten
