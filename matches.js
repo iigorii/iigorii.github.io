@@ -2,14 +2,11 @@
 
 var data = JSON.parse(matches);
 
-console.log(data); //Printing data to help manipultating it
+console.log(data); 
 /*
 TODO: 	
 
--simplify listMatches- function
-    -get info from data to JS objects
-    
--home team first then away??
+
 		
 */
 
@@ -60,7 +57,7 @@ function listMatches(data){
        
 		let pageLink = document.createElement("A");
 		pageLink.setAttribute("href", "ottelu/index.html" /*"javascript:makeDocument(matchInfo)"*/);
-		let teams = document.createTextNode(data[i].AwayTeam.Name + " - " + data[i].HomeTeam.Name);
+		let teams = document.createTextNode(data[i].HomeTeam.Name + " - " + data[i].AwayTeam.Name);
 		pageLink.appendChild(teams);
 		let tdTeams = document.createElement("TD");
 		tdTeams.appendChild(pageLink);
@@ -68,7 +65,7 @@ function listMatches(data){
 		
 		
 		
-		let result = document.createTextNode(data[i].AwayGoals + " — " + data[i].HomeGoals);
+		let result = document.createTextNode(data[i].HomeGoals + " — " + data[i].AwayGoals);
 		let tdResult = document.createElement("TD");
 		tdResult.appendChild(result);
 		tablerow.appendChild(tdResult);
@@ -79,7 +76,8 @@ function listMatches(data){
             localStorage.setItem("homeTeamName", data[i].HomeTeam.Name);
             localStorage.setItem("awayGoals", data[i].AwayGoals);
             localStorage.setItem("homeGoals", data[i].HomeGoals);
-            
+            localStorage.setItem("homeLogo", data[i].HomeTeam.LogoUrl);
+            localStorage.setItem("awayLogo", data[i].AwayTeam.LogoUrl);
                 
         });
 	}

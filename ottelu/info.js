@@ -2,7 +2,7 @@
 
 var data = JSON.parse(matches);
 
-console.log(data); //Printing data to help manipultating it
+console.log(data); 
 
 window.onload = function() {
     showResults();
@@ -10,9 +10,18 @@ window.onload = function() {
 
 function showResults() {
         
-    $(".away").text(localStorage.getItem("awayTeamName"));
-    $(".result").text(localStorage.getItem("awayGoals") + " - " + localStorage.getItem("homeGoals"));
-    $(".home").text(localStorage.getItem("homeTeamName"));
+    let homeLogoUrl = localStorage.getItem("homeLogo");
+    var homeLogoImg = $('<img />').attr({'src': homeLogoUrl}).appendTo('.home');
     
+    let awayLogoUrl = localStorage.getItem("awayLogo");
+    var awayLogoImg = $('<img />').attr({'src': awayLogoUrl}).appendTo('.away');
+    
+    
+    $(".home").append(localStorage.getItem("homeTeamName"));
+    $(".result").text(localStorage.getItem("homeGoals") + " - " + localStorage.getItem("awayGoals"));
+    $(".away").append(localStorage.getItem("awayTeamName"));
+    
+ 
+    console.log(localStorage);
     localStorage.clear();
 }
