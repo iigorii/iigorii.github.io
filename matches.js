@@ -7,12 +7,14 @@ console.log(data); //Printing data to help manipultating it
 TODO: 	
 
 -simplify listMatches- function
+    -get info from data to JS objects
+    
+-home team first then away??
 		
 */
 
 window.onload = function() {
 	listMatches(data);
-	//filterByDate();
 	filter();
 }
 
@@ -72,7 +74,7 @@ function listMatches(data){
 		tablerow.appendChild(tdResult);
         
         pageLink.addEventListener("click", function(){
-            
+            //TODO: put more data to localStorage
             localStorage.setItem("awayTeamName", data[i].AwayTeam.Name);
             localStorage.setItem("homeTeamName", data[i].HomeTeam.Name);
             localStorage.setItem("awayGoals", data[i].AwayGoals);
