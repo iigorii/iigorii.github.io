@@ -21,6 +21,10 @@ button {
 	padding: 8px;
 }
 
+select {
+    padding: 8px;
+}
+
 #matchtable {
     background-color: white;
     margin-right: 200px;

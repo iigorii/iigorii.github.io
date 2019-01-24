@@ -8,6 +8,9 @@ window.onload = function() {
     showResults();
 }
 
+/**
+* Gets data from localStorage and displays it on the page
+*/
 function showResults() {
         
     let homeLogoUrl = localStorage.getItem("homeLogo");
@@ -21,7 +24,4 @@ function showResults() {
     $(".result").text(localStorage.getItem("homeGoals") + " - " + localStorage.getItem("awayGoals"));
     $(".away").append(localStorage.getItem("awayTeamName"));
     
- 
-    console.log(localStorage);
-    localStorage.clear();
 }

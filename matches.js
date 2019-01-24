@@ -13,6 +13,7 @@ TODO:
 window.onload = function() {
 	listMatches(data);
 	filter();
+    teamFilter();
 }
 
 /**
@@ -70,7 +71,7 @@ function listMatches(data){
 		tdResult.appendChild(result);
 		tablerow.appendChild(tdResult);
         
-        pageLink.addEventListener("click", function(){
+        pageLink.addEventListener("click", function(){ //inserts data to localStorage so that it is available on the opening page
             //TODO: put more data to localStorage
             localStorage.setItem("awayTeamName", data[i].AwayTeam.Name);
             localStorage.setItem("homeTeamName", data[i].HomeTeam.Name);
@@ -217,3 +218,34 @@ function filterByDate(e){
 	}
 }
 
+/**
+* Adds team names to drop down selection on the page
+*/
+function teamFilter() {
+    var teams = getTeamNames();
+    
+    var slct = document.getElementById("team");
+    
+    for (let i of teams){
+        let optn = document.createElement("option");
+        let teamText = document.createTextNode(i);
+        optn.appendChild(teamText);
+        slct.appendChild(optn);
+    }
+}
+
+
+/**
+* Gets team names from data(AwayTeams)
+*/
+function getTeamNames(){
+    var teams = [];
+    
+    for (let i of data){
+        if (teams.includes(i.AwayTeam.FullName)) continue;
+        
+        teams.push(i.AwayTeam.FullName);
+    }
+    
+    return teams;
+}
