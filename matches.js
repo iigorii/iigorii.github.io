@@ -222,30 +222,38 @@ function filterByDate(e){
 * Adds team names to drop down selection on the page
 */
 function teamFilter() {
-    var teams = getTeamNames();
+    
+	var teams = getTeamIdsAndNames();
+	console.log(teams);
     
     var slct = document.getElementById("team");
     
-    for (let i of teams){
+    for (let i = 0; i < teams.length; i++){
         let optn = document.createElement("option");
-        let teamText = document.createTextNode(i);
+	let teamText = document.createTextNode(teams[i][1]);
         optn.appendChild(teamText);
+		optn.setAttribute("value", teams[i][0]);
         slct.appendChild(optn);
     }
 }
 
 
-/**
-* Gets team names from data(AwayTeams)
-*/
-function getTeamNames(){
-    var teams = [];
+
+
+function getTeamIdsAndNames(){
+    var teams = []; //[data[0].AwayTeam.Id, data[0].AwayTeam.FullName];
     
-    for (let i of data){
-        if (teams.includes(i.AwayTeam.FullName)) continue;
-        
-        teams.push(i.AwayTeam.FullName);
-    }
-    
+		
+		for (let i = 0; i < data.length; i++) {
+			let match = data[i];
+			if (ifExists(teams, match.AwayTeam.Id)) continue;
+			teams.push([match.AwayTeam.Id, match.AwayTeam.FullName]);
+			
+		}
+       
     return teams;
+}
+
+function ifExists(array, search) {
+    return array.some(row => row.includes(search));
 }
