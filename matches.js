@@ -234,11 +234,36 @@ function teamFilter() {
         optn.appendChild(teamText);
 		optn.setAttribute("value", teams[i][0]);
         slct.appendChild(optn);
+        
+        optn.addEventListener("click", handleOption);
     }
 }
 
 
-
+function handleOption(e) {
+    
+    var selectedTeamMatches = [];
+    
+    for (let i of data) {
+        if (e.target.value == i.AwayTeam.Id || e.target.value == i.HomeTeam.Id) {
+            selectedTeamMatches.push(i);
+        }
+    }
+    
+    if (e.target.value == 1) {
+        listMatches(data);
+       console.log("tulostais")
+    } 
+    else {
+       
+       var table = document.getElementById("games");
+	var tbody = document.getElementById("tbody");
+	table.removeChild(table.lastChild);
+	listMatches(selectedTeamMatches);
+    }
+    
+    //TODO: jos valitaan "kaikki" (pitää muokata html myös) 
+}
 
 function getTeamIdsAndNames(){
     var teams = []; //[data[0].AwayTeam.Id, data[0].AwayTeam.FullName];
