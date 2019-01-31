@@ -210,7 +210,6 @@ function filterByDate(e){
 		let tablerow = document.createElement("TR");
 		tbody.appendChild(tablerow);
 		
-		//appends extra tbody?
 		let error = document.createTextNode("Ei pelattuja otteluita tällä aikavälillä");
 		let tdError = document.createElement("TD");
 		tdError.appendChild(error);
@@ -227,6 +226,8 @@ function teamFilter() {
 	console.log(teams);
     
     var slct = document.getElementById("team");
+    var useAll = slct.firstChild.nextSibling;
+    useAll.addEventListener("click", handleOption);
     
     for (let i = 0; i < teams.length; i++){
         let optn = document.createElement("option");
@@ -241,7 +242,8 @@ function teamFilter() {
 
 
 function handleOption(e) {
-    
+    e.preventDefault();
+    console.log("juhu");
     var selectedTeamMatches = [];
     
     for (let i of data) {
@@ -250,9 +252,12 @@ function handleOption(e) {
         }
     }
     
-    if (e.target.value == 1) {
-        listMatches(data);
-       console.log("tulostais")
+    if (e.target.value == "") {
+        var table = document.getElementById("games");
+        var tbody = document.getElementById("tbody");
+        table.removeChild(table.lastChild);
+       listMatches(data);
+       console.log("tulostais");
     } 
     else {
        
@@ -260,13 +265,17 @@ function handleOption(e) {
 	var tbody = document.getElementById("tbody");
 	table.removeChild(table.lastChild);
 	listMatches(selectedTeamMatches);
+    console.log(selectedTeamMatches);
+    localStorage.setItem("matchesOnTheSite", selectedTeamMatches);
+    console.log(localStorage);
     }
     
     //TODO: jos valitaan "kaikki" (pitää muokata html myös) 
+    //TODO: pvm rajaus valitulla ottelulla
 }
 
 function getTeamIdsAndNames(){
-    var teams = []; //[data[0].AwayTeam.Id, data[0].AwayTeam.FullName];
+    var teams = []; 
     
 		
 		for (let i = 0; i < data.length; i++) {
