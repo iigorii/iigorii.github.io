@@ -20,8 +20,8 @@ function showResults() {
     var awayLogoImg = $('<img />').attr({'src': awayLogoUrl}).appendTo('.away');
     
     
-    $(".home").append(localStorage.getItem("homeTeamName"));
+   // $(".home").append(localStorage.getItem("homeTeamName"));
     $(".result").text(localStorage.getItem("homeGoals") + " - " + localStorage.getItem("awayGoals"));
-    $(".away").append(localStorage.getItem("awayTeamName"));
+   // $(".away").append(localStorage.getItem("awayTeamName"));
     
 }
