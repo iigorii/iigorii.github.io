@@ -9,6 +9,7 @@ TODO:
 
 		
 */
+var selectedTeamMatches = [];
 
 window.onload = function() {
 	listMatches(data);
@@ -17,7 +18,7 @@ window.onload = function() {
 }
 
 /**
-* A function for listing matches from data to the site
+* A function for listing matches to the site
 */
 function listMatches(data){
 	let table = document.getElementById("games");
@@ -72,7 +73,7 @@ function listMatches(data){
 		tablerow.appendChild(tdResult);
         
         pageLink.addEventListener("click", function(){ //inserts data to localStorage so that it is available on the opening page
-            //TODO: put more data to localStorage
+            
             localStorage.setItem("awayTeamName", data[i].AwayTeam.Name);
             localStorage.setItem("homeTeamName", data[i].HomeTeam.Name);
             localStorage.setItem("awayGoals", data[i].AwayGoals);
@@ -117,7 +118,7 @@ function filter() {
 
 /**
 * Changes end date values according to users selection of start date
-* IN PROGRESS: changes year if user tries to select the first or the last day of the year to both datepickers
+* 
 */
 function setEndDateValues(e){
 	e.preventDefault(); 
@@ -179,13 +180,12 @@ function formatDate(date) {
 
 
 /**
-* Filtering match list on the website according to users date filtering
+* Filtering match list on the website according to users date filtering and team choise
 */
 function filterByDate(e){
 	e.preventDefault(); 
 	
-	
-	
+	var slct = document.getElementById("team");
 	var start = document.getElementById("start");
 	var end = document.getElementById("end");
 	var isoStartDate = new Date(start.value).toISOString();
@@ -193,9 +193,18 @@ function filterByDate(e){
 	
 	var filteredMatches = [];
 	
-	for (let i = 0; i < data.length; i++){
-		if (isoStartDate <= data[i].MatchDate && data[i].MatchDate <= isoEndDate) {
-			filteredMatches.push(data[i]);
+	if (slct.options[slct.selectedIndex].value != ""){ // if user has chosen a team from dropdown
+		for (let i = 0; i < selectedTeamMatches.length; i++){
+			if (isoStartDate <= selectedTeamMatches[i].MatchDate && selectedTeamMatches[i].MatchDate <= isoEndDate) {
+				filteredMatches.push(selectedTeamMatches[i]);
+			}
+		}
+	}
+	else { // if user has not chosen a team
+		for (let i = 0; i < data.length; i++){
+			if (isoStartDate <= data[i].MatchDate && data[i].MatchDate <= isoEndDate) {
+				filteredMatches.push(data[i]);
+			}
 		}
 	}
 	
@@ -231,7 +240,7 @@ function teamFilter() {
     
     for (let i = 0; i < teams.length; i++){
         let optn = document.createElement("option");
-	let teamText = document.createTextNode(teams[i][1]);
+		let teamText = document.createTextNode(teams[i][1]);
         optn.appendChild(teamText);
 		optn.setAttribute("value", teams[i][0]);
         slct.appendChild(optn);
@@ -241,10 +250,13 @@ function teamFilter() {
 }
 
 
+/**
+*	Lists matches based on users team selection on the site 
+*/
 function handleOption(e) {
     e.preventDefault();
-    console.log("juhu");
-    var selectedTeamMatches = [];
+	
+    selectedTeamMatches = [];
     
     for (let i of data) {
         if (e.target.value == i.AwayTeam.Id || e.target.value == i.HomeTeam.Id) {
@@ -257,37 +269,37 @@ function handleOption(e) {
         var tbody = document.getElementById("tbody");
         table.removeChild(table.lastChild);
        listMatches(data);
-       console.log("tulostais");
     } 
     else {
        
-       var table = document.getElementById("games");
-	var tbody = document.getElementById("tbody");
-	table.removeChild(table.lastChild);
-	listMatches(selectedTeamMatches);
-    console.log(selectedTeamMatches);
-    localStorage.setItem("matchesOnTheSite", selectedTeamMatches);
-    console.log(localStorage);
+		var table = document.getElementById("games");
+		var tbody = document.getElementById("tbody");
+		table.removeChild(table.lastChild);
+		listMatches(selectedTeamMatches);
+		console.log(selectedTeamMatches);
     }
-    
-    //TODO: jos valitaan "kaikki" (pitää muokata html myös) 
-    //TODO: pvm rajaus valitulla ottelulla
 }
 
+
+/**
+* returns an array with team names and ids
+*/
 function getTeamIdsAndNames(){
     var teams = []; 
     
-		
-		for (let i = 0; i < data.length; i++) {
-			let match = data[i];
-			if (ifExists(teams, match.AwayTeam.Id)) continue;
-			teams.push([match.AwayTeam.Id, match.AwayTeam.FullName]);
-			
+	for (let i = 0; i < data.length; i++) {
+		let match = data[i];
+		if (ifExists(teams, match.AwayTeam.Id)) continue;
+		teams.push([match.AwayTeam.Id, match.AwayTeam.FullName]);	
 		}
        
     return teams;
 }
 
+
+/**
+* Checks if team array includes specific id
+*/
 function ifExists(array, search) {
     return array.some(row => row.includes(search));
 }
