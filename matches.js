@@ -235,8 +235,7 @@ function teamFilter() {
 	console.log(teams);
     
     var slct = document.getElementById("team");
-    var useAll = slct.firstChild.nextSibling;
-    useAll.addEventListener("click", handleOption);
+	slct.addEventListener("click", handleSelect)
     
     for (let i = 0; i < teams.length; i++){
         let optn = document.createElement("option");
@@ -245,7 +244,6 @@ function teamFilter() {
 		optn.setAttribute("value", teams[i][0]);
         slct.appendChild(optn);
         
-        optn.addEventListener("click", handleOption);
     }
 }
 
@@ -253,7 +251,7 @@ function teamFilter() {
 /**
 *	Lists matches based on users team selection on the site 
 */
-function handleOption(e) {
+function handleSelect(e) {
     e.preventDefault();
 	
     selectedTeamMatches = [];
